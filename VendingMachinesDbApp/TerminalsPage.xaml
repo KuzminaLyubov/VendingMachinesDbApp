@@ -1,0 +1,82 @@
+﻿<Page
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VendingMachines"
+        xmlns:Models="clr-namespace:VendingMachines.Models" x:Name="TerminalsPageName" x:Class="VendingMachines.TerminalsPage"
+        mc:Ignorable="d"
+        Title="Terminals" Loaded="Page_Loaded">
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <StackPanel>
+                <Button x:Name="_buttonTerminals" Content="Terminals"  Margin="5 5 5 5" VerticalAlignment="Center" 
+                    Width="95" Height="25" HorizontalAlignment="Right" Click="Page_ButtonTerminals_Click"/>
+                <Button x:Name="_buttonProducts" Content="Products" Margin="5 5 5 5" VerticalAlignment="Center"
+                    Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonProducts_Click"/>
+                <Button x:Name="_buttonStats" Content="Stats" Margin="5 5 5 5" VerticalAlignment="Center"
+                    Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonStats_Click"/>
+            </StackPanel>
+            <GroupBox DockPanel.Dock="Left" Header="List of Terminals" FontWeight="Bold">
+                <ListBox x:Name="_terminalsListBox"  FontWeight="Normal"
+                            SelectedValuePath="Location"  
+                            DisplayMemberPath="Location" 
+                            SelectionChanged="Page_TerminalsListBox_SelectionChanged"/>
+            </GroupBox>
+            <StackPanel DockPanel.Dock="Right">
+                <GroupBox Header="Terminal" FontWeight="Bold">
+                    <StackPanel>
+                        <Label x:Name="_labelTerminalId" Content="Id:" FontWeight="Bold"/>
+                        <TextBlock x:Name="_textBlockTerminalId" Height="20" FontWeight="Normal"/>
+                        <Label x:Name="_labelTerminalLocation" Content="Location:" FontWeight="Bold"/>
+                        <TextBlock x:Name="_textBlockTerminalLocation" Height="20" FontWeight="Normal"/>
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Button x:Name="_buttonAddTerminal" Content="Add" Margin="5 0 5 5" Click="Page_ButtonAddTerminal_Click"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left"/>
+                            <Button x:Name="_buttonEditTerminal" Content="Edit"  Margin="5 0 5 5" Click="Page_ButtonEditTerminal_Click"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+                <DockPanel>
+                    <GroupBox Header="Bills" FontWeight="Bold">
+                    <DataGrid x:Name="_dataGridBills" 
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Denom" Binding="{Binding Denomination}"/>
+                                <DataGridTextColumn Header="InsertedQty" Binding="{Binding InsertedQuantity}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Header="Coins" FontWeight="Bold">
+                        <DataGrid x:Name="_dataGridCoins" 
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Denom" Binding="{Binding Denomination}"/>
+                                <DataGridTextColumn Header="Qty" Binding="{Binding LoadedQuantity}"/>
+                                <DataGridTextColumn Header="ReturnedQty" Binding="{Binding ReturnedQuantity}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </DockPanel>
+                <DockPanel>
+                    <GroupBox Header="Products" FontWeight="Bold">
+                        <DataGrid x:Name="_dataGridProducts" 
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="SellingPrice" Binding="{Binding SellingPrice}"/>
+                                <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Page>

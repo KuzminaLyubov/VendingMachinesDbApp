@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="ece7032e-fcf4-485f-8d4e-677893f9c4d7" ChangeDateTime="11/12/2017 17:27:18">
+    <Property Name="ElementName" Value="[VM].[SoldProducts].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[VM].[SoldProducts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProductName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5dcac099-ed36-4054-bc34-029eaf28e8e1" ChangeDateTime="11/12/2017 17:33:55">
+    <Property Name="ElementName" Value="[VM].[SoldProducts].[TerminalID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[VM].[SoldProducts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TerminalId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f65c6b2a-33a3-4156-879c-68e51489cc61" ChangeDateTime="11/12/2017 17:52:13">
+    <Property Name="ElementName" Value="[VM].[SellingPrice].[Sel]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[VM].[SellingPrice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SellingPrice" />
+  </Operation>
+</Operations>

@@ -1,0 +1,85 @@
+﻿<Page
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VendingMachines"
+        xmlns:Models="clr-namespace:VendingMachines.Models" x:Name="ProductsPageName" x:Class="VendingMachines.ProductsPage"
+        mc:Ignorable="d"
+        Title="Products" Loaded="Page_Loaded">
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <StackPanel>
+                <Button x:Name="_buttonTerminals" Content="Terminals"  Margin="5 5 5 5" VerticalAlignment="Center" 
+                    Width="95" Height="25" HorizontalAlignment="Right" Click="Page_ButtonTerminals_Click"/>
+                <Button x:Name="_buttonProducts" Content="Products" Margin="5 5 5 5" VerticalAlignment="Center"
+                    Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonProducts_Click"/>
+                <Button x:Name="_buttonStats" Content="Stats" Margin="5 5 5 5" VerticalAlignment="Center"
+                    Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonStats_Click"/>
+            </StackPanel>
+            <GroupBox DockPanel.Dock="Left" Header="List of Products" FontWeight="Bold">
+                <ListBox x:Name="_productsListBox"  FontWeight="Normal"
+                            SelectedValuePath="Name"  
+                            DisplayMemberPath="Name" 
+                            SelectionChanged="Page_ProductsListBox_SelectionChanged"/>
+            </GroupBox>
+            <StackPanel DockPanel.Dock="Right">
+                <GroupBox Header="Products" FontWeight="Bold">
+                    <StackPanel>
+                        <Label x:Name="_labelProductId" Content="Id:" FontWeight="Bold"/>
+                        <TextBlock x:Name="_textBlockProductId" Height="20" FontWeight="Normal"/>
+                        <Label x:Name="_labelProductName" Content="Name:" FontWeight="Bold"/>
+                        <TextBlock x:Name="_textBlockProductName" Height="20" FontWeight="Normal"/>
+                        <DockPanel DockPanel.Dock="Bottom">
+                            <Button x:Name="_buttonAddProduct" Content="Add" Margin="5 0 5 5"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonAddProduct_Click"/>
+                            <Button x:Name="_buttonEditProduct" Content="Edit"  Margin="5 0 5 5"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonEditProduct_Click"/>
+                            <Button x:Name="_buttonDeleteProduct" Content="Delete"  Margin="5 0 5 5"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonDeleteProduct_Click"/>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Current Price" FontWeight="Bold">
+                    <DockPanel>
+                        <StackPanel Margin="5 5 5 5" >
+                        <Label x:Name="_labelProductSellingPrice" Content="Selling Price:" FontWeight="Bold" />
+                        <TextBlock x:Name="_textBlockProductSellingPrice" Height="20" FontWeight="Normal"/>
+                        <Label x:Name="_labelProductPurchasePrice" Content="Purchase Price:" FontWeight="Bold"/>
+                        <TextBlock x:Name="_textBlockProductPurchasePrice" Height="20" FontWeight="Normal"/>
+                        <Label x:Name="_labelProductPriceDate" Content="Activation Date:" FontWeight="Bold" />
+                        <TextBlock x:Name="_textBlockProductPriceDate" FontWeight="Normal"/>
+                            <DockPanel  Margin="5 5 5 5" DockPanel.Dock="Bottom">
+                            <Button x:Name="_buttonAddPrice" Content="Add" Margin="5 0 5 5"
+                        VerticalAlignment="Top" Width="95" Height="25" HorizontalAlignment="Left" Click="Page_ButtonAddPrice_Click"/>
+                            </DockPanel>
+                    </StackPanel>
+                        <DataGrid x:Name="_dataGridPrices" 
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Product Id" Binding="{Binding ProductId}"/>
+                                <DataGridTextColumn Header="Selling Price" Binding="{Binding SellingPrice}"/>
+                                <DataGridTextColumn Header="Purchase Price" Binding="{Binding PurchasePrice}"/>
+                                <DataGridTextColumn Header="Activation Date" Binding="{Binding Date}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </GroupBox>
+                <DockPanel>
+                    <GroupBox Header="Terminals" FontWeight="Bold">
+                        <DataGrid x:Name="_dataGridTerminals" 
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Location" Binding="{Binding Terminal.Location}"/>
+                                <DataGridTextColumn Header="ProductQty" Binding="{Binding Quantity}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Page>

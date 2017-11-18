@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aad330778b70489b8c6b190d704c7b73" Name="Diagram1">
+        <EntityTypeShape EntityType="VendingMachinesModel.C__RefactorLog" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="VendingMachinesModel.Bill" Width="1.5" PointX="6.5" PointY="7.5" />
+        <EntityTypeShape EntityType="VendingMachinesModel.Coin" Width="1.5" PointX="9.25" PointY="7.5" />
+        <EntityTypeShape EntityType="VendingMachinesModel.ProductPrice" Width="1.5" PointX="0.875" PointY="5.25" />
+        <EntityTypeShape EntityType="VendingMachinesModel.Product" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VendingMachinesModel.SoldProduct" Width="1.5" PointX="4.875" PointY="2.875" />
+        <EntityTypeShape EntityType="VendingMachinesModel.Terminal" Width="1.5" PointX="8" PointY="0.75" />
+        <EntityTypeShape EntityType="VendingMachinesModel.TerminalsBill" Width="1.5" PointX="6.625" PointY="5.25" />
+        <EntityTypeShape EntityType="VendingMachinesModel.TerminalsCoin" Width="1.5" PointX="9.125" PointY="4.625" />
+        <EntityTypeShape EntityType="VendingMachinesModel.TerminalsProduct" Width="1.5" PointX="4.75" PointY="0.625" />
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsBills_Bills" />
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsCoins_Coins" />
+        <AssociationConnector Association="VendingMachinesModel.FK_ProductPrices_Products" />
+        <AssociationConnector Association="VendingMachinesModel.FK_SoldProducts_Products" />
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsProducts_Products" />
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsBills_Terminals" ></AssociationConnector>
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsCoins_Terminals" />
+        <AssociationConnector Association="VendingMachinesModel.FK_TerminalsProducts_Terminals" />
+        <AssociationConnector Association="VendingMachinesModel.FK_SoldProducts_Terminals" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

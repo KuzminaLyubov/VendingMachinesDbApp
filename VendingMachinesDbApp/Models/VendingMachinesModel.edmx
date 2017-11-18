@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VendingMachinesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Denomination" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coins">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Denomination" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductPrices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="SellingPrice" Type="money" Nullable="false" />
+          <Property Name="PurchasePrice" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SoldProducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="TerminalId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Terminals">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BillsCapacity" Type="int" Nullable="false" />
+          <Property Name="CoinsLoadedQty" Type="int" Nullable="false" />
+          <Property Name="ProductsLoadedQty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TerminalsBills">
+          <Key>
+            <PropertyRef Name="BillId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="BillId" Type="int" Nullable="false" />
+          <Property Name="TerminalId" Type="int" Nullable="false" />
+          <Property Name="InsertedQuantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TerminalsCoins">
+          <Key>
+            <PropertyRef Name="CoinId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="CoinId" Type="int" Nullable="false" />
+          <Property Name="TerminalId" Type="int" Nullable="false" />
+          <Property Name="ReturnedQuantity" Type="int" Nullable="false" />
+          <Property Name="LoadedQuantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TerminalsProducts">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="ProductId" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="TerminalId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ProductPrices_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductPrices" Type="Self.ProductPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductPrices">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoldProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="SoldProducts" Type="Self.SoldProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SoldProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoldProducts_Terminals">
+          <End Role="Terminals" Type="Self.Terminals" Multiplicity="1" />
+          <End Role="SoldProducts" Type="Self.SoldProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SoldProducts">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsBills_Bills">
+          <End Role="Bills" Type="Self.Bills" Multiplicity="1" />
+          <End Role="TerminalsBills" Type="Self.TerminalsBills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsBills">
+              <PropertyRef Name="BillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsBills_Terminals">
+          <End Role="Terminals" Type="Self.Terminals" Multiplicity="1" />
+          <End Role="TerminalsBills" Type="Self.TerminalsBills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsBills">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsCoins_Coins">
+          <End Role="Coins" Type="Self.Coins" Multiplicity="1" />
+          <End Role="TerminalsCoins" Type="Self.TerminalsCoins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coins">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsCoins">
+              <PropertyRef Name="CoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsCoins_Terminals">
+          <End Role="Terminals" Type="Self.Terminals" Multiplicity="1" />
+          <End Role="TerminalsCoins" Type="Self.TerminalsCoins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsCoins">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsProducts_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="TerminalsProducts" Type="Self.TerminalsProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsProducts_Terminals">
+          <End Role="Terminals" Type="Self.Terminals" Multiplicity="1" />
+          <End Role="TerminalsProducts" Type="Self.TerminalsProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminals">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsProducts">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VendingMachinesModelStoreContainer">
+          <EntitySet Name="Bills" EntityType="Self.Bills" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="Coins" EntityType="Self.Coins" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="ProductPrices" EntityType="Self.ProductPrices" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="SoldProducts" EntityType="Self.SoldProducts" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="Terminals" EntityType="Self.Terminals" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="TerminalsBills" EntityType="Self.TerminalsBills" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="TerminalsCoins" EntityType="Self.TerminalsCoins" Schema="VM" store:Type="Tables" />
+          <EntitySet Name="TerminalsProducts" EntityType="Self.TerminalsProducts" Schema="VM" store:Type="Tables" />
+          <AssociationSet Name="FK_ProductPrices_Products" Association="Self.FK_ProductPrices_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductPrices" EntitySet="ProductPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoldProducts_Products" Association="Self.FK_SoldProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="SoldProducts" EntitySet="SoldProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoldProducts_Terminals" Association="Self.FK_SoldProducts_Terminals">
+            <End Role="Terminals" EntitySet="Terminals" />
+            <End Role="SoldProducts" EntitySet="SoldProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsBills_Bills" Association="Self.FK_TerminalsBills_Bills">
+            <End Role="Bills" EntitySet="Bills" />
+            <End Role="TerminalsBills" EntitySet="TerminalsBills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsBills_Terminals" Association="Self.FK_TerminalsBills_Terminals">
+            <End Role="Terminals" EntitySet="Terminals" />
+            <End Role="TerminalsBills" EntitySet="TerminalsBills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsCoins_Coins" Association="Self.FK_TerminalsCoins_Coins">
+            <End Role="Coins" EntitySet="Coins" />
+            <End Role="TerminalsCoins" EntitySet="TerminalsCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsCoins_Terminals" Association="Self.FK_TerminalsCoins_Terminals">
+            <End Role="Terminals" EntitySet="Terminals" />
+            <End Role="TerminalsCoins" EntitySet="TerminalsCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsProducts_Products" Association="Self.FK_TerminalsProducts_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="TerminalsProducts" EntitySet="TerminalsProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsProducts_Terminals" Association="Self.FK_TerminalsProducts_Terminals">
+            <End Role="Terminals" EntitySet="Terminals" />
+            <End Role="TerminalsProducts" EntitySet="TerminalsProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VendingMachinesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="VendingMachinesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bills" EntityType="VendingMachinesModel.Bill" />
+          <EntitySet Name="Coins" EntityType="VendingMachinesModel.Coin" />
+          <EntitySet Name="ProductPrices" EntityType="VendingMachinesModel.ProductPrice" />
+          <EntitySet Name="Products" EntityType="VendingMachinesModel.Product" />
+          <EntitySet Name="SoldProducts" EntityType="VendingMachinesModel.SoldProduct" />
+          <EntitySet Name="Terminals" EntityType="VendingMachinesModel.Terminal" />
+          <EntitySet Name="TerminalsBills" EntityType="VendingMachinesModel.TerminalsBill" />
+          <EntitySet Name="TerminalsCoins" EntityType="VendingMachinesModel.TerminalsCoin" />
+          <EntitySet Name="TerminalsProducts" EntityType="VendingMachinesModel.TerminalsProduct" />
+          <AssociationSet Name="FK_TerminalsBills_Bills" Association="VendingMachinesModel.FK_TerminalsBills_Bills">
+            <End Role="Bill" EntitySet="Bills" />
+            <End Role="TerminalsBill" EntitySet="TerminalsBills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsCoins_Coins" Association="VendingMachinesModel.FK_TerminalsCoins_Coins">
+            <End Role="Coin" EntitySet="Coins" />
+            <End Role="TerminalsCoin" EntitySet="TerminalsCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductPrices_Products" Association="VendingMachinesModel.FK_ProductPrices_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductPrice" EntitySet="ProductPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoldProducts_Products" Association="VendingMachinesModel.FK_SoldProducts_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="SoldProduct" EntitySet="SoldProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsProducts_Products" Association="VendingMachinesModel.FK_TerminalsProducts_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="TerminalsProduct" EntitySet="TerminalsProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsBills_Terminals" Association="VendingMachinesModel.FK_TerminalsBills_Terminals">
+            <End Role="Terminal" EntitySet="Terminals" />
+            <End Role="TerminalsBill" EntitySet="TerminalsBills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsCoins_Terminals" Association="VendingMachinesModel.FK_TerminalsCoins_Terminals">
+            <End Role="Terminal" EntitySet="Terminals" />
+            <End Role="TerminalsCoin" EntitySet="TerminalsCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminalsProducts_Terminals" Association="VendingMachinesModel.FK_TerminalsProducts_Terminals">
+            <End Role="Terminal" EntitySet="Terminals" />
+            <End Role="TerminalsProduct" EntitySet="TerminalsProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SoldProducts_Terminals" Association="VendingMachinesModel.FK_SoldProducts_Terminals">
+            <End Role="Terminal" EntitySet="Terminals" />
+            <End Role="SoldProduct" EntitySet="SoldProducts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Denomination" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="TerminalsBills" Relationship="VendingMachinesModel.FK_TerminalsBills_Bills" FromRole="Bill" ToRole="TerminalsBill" />
+        </EntityType>
+        <EntityType Name="Coin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Denomination" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="TerminalsCoins" Relationship="VendingMachinesModel.FK_TerminalsCoins_Coins" FromRole="Coin" ToRole="TerminalsCoin" />
+        </EntityType>
+        <EntityType Name="ProductPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SellingPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="PurchasePrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Product" Relationship="VendingMachinesModel.FK_ProductPrices_Products" FromRole="ProductPrice" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductPrices" Relationship="VendingMachinesModel.FK_ProductPrices_Products" FromRole="Product" ToRole="ProductPrice" />
+          <NavigationProperty Name="SoldProducts" Relationship="VendingMachinesModel.FK_SoldProducts_Products" FromRole="Product" ToRole="SoldProduct" />
+          <NavigationProperty Name="TerminalsProducts" Relationship="VendingMachinesModel.FK_TerminalsProducts_Products" FromRole="Product" ToRole="TerminalsProduct" />
+        </EntityType>
+        <EntityType Name="SoldProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Product" Relationship="VendingMachinesModel.FK_SoldProducts_Products" FromRole="SoldProduct" ToRole="Product" />
+          <Property Name="TerminalId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Terminal" Relationship="VendingMachinesModel.FK_SoldProducts_Terminals" FromRole="SoldProduct" ToRole="Terminal" />
+        </EntityType>
+        <EntityType Name="Terminal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillsCapacity" Type="Int32" Nullable="false" />
+          <Property Name="CoinsLoadedQty" Type="Int32" Nullable="false" />
+          <Property Name="ProductsLoadedQty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TerminalsBills" Relationship="VendingMachinesModel.FK_TerminalsBills_Terminals" FromRole="Terminal" ToRole="TerminalsBill" />
+          <NavigationProperty Name="TerminalsCoins" Relationship="VendingMachinesModel.FK_TerminalsCoins_Terminals" FromRole="Terminal" ToRole="TerminalsCoin" />
+          <NavigationProperty Name="TerminalsProducts" Relationship="VendingMachinesModel.FK_TerminalsProducts_Terminals" FromRole="Terminal" ToRole="TerminalsProduct" />
+          <NavigationProperty Name="SoldProducts" Relationship="VendingMachinesModel.FK_SoldProducts_Terminals" FromRole="Terminal" ToRole="SoldProduct" />
+        </EntityType>
+        <EntityType Name="TerminalsBill">
+          <Key>
+            <PropertyRef Name="BillId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="BillId" Type="Int32" Nullable="false" />
+          <Property Name="TerminalId" Type="Int32" Nullable="false" />
+          <Property Name="InsertedQuantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bill" Relationship="VendingMachinesModel.FK_TerminalsBills_Bills" FromRole="TerminalsBill" ToRole="Bill" />
+          <NavigationProperty Name="Terminal" Relationship="VendingMachinesModel.FK_TerminalsBills_Terminals" FromRole="TerminalsBill" ToRole="Terminal" />
+        </EntityType>
+        <EntityType Name="TerminalsCoin">
+          <Key>
+            <PropertyRef Name="CoinId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="CoinId" Type="Int32" Nullable="false" />
+          <Property Name="TerminalId" Type="Int32" Nullable="false" />
+          <Property Name="ReturnedQuantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Coin" Relationship="VendingMachinesModel.FK_TerminalsCoins_Coins" FromRole="TerminalsCoin" ToRole="Coin" />
+          <NavigationProperty Name="Terminal" Relationship="VendingMachinesModel.FK_TerminalsCoins_Terminals" FromRole="TerminalsCoin" ToRole="Terminal" />
+          <Property Name="LoadedQuantity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TerminalsProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="TerminalId" />
+          </Key>
+          <Property Name="ProductId" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="TerminalId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="VendingMachinesModel.FK_TerminalsProducts_Products" FromRole="TerminalsProduct" ToRole="Product" />
+          <NavigationProperty Name="Terminal" Relationship="VendingMachinesModel.FK_TerminalsProducts_Terminals" FromRole="TerminalsProduct" ToRole="Terminal" />
+        </EntityType>
+        <Association Name="FK_TerminalsBills_Bills">
+          <End Type="VendingMachinesModel.Bill" Role="Bill" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsBill" Role="TerminalsBill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsBill">
+              <PropertyRef Name="BillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsCoins_Coins">
+          <End Type="VendingMachinesModel.Coin" Role="Coin" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsCoin" Role="TerminalsCoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsCoin">
+              <PropertyRef Name="CoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductPrices_Products">
+          <End Type="VendingMachinesModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="VendingMachinesModel.ProductPrice" Role="ProductPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductPrice">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoldProducts_Products">
+          <End Type="VendingMachinesModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="VendingMachinesModel.SoldProduct" Role="SoldProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SoldProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsProducts_Products">
+          <End Type="VendingMachinesModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsProduct" Role="TerminalsProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsBills_Terminals">
+          <End Type="VendingMachinesModel.Terminal" Role="Terminal" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsBill" Role="TerminalsBill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsBill">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsCoins_Terminals">
+          <End Type="VendingMachinesModel.Terminal" Role="Terminal" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsCoin" Role="TerminalsCoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsCoin">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminalsProducts_Terminals">
+          <End Type="VendingMachinesModel.Terminal" Role="Terminal" Multiplicity="1" />
+          <End Type="VendingMachinesModel.TerminalsProduct" Role="TerminalsProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TerminalsProduct">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SoldProducts_Terminals">
+          <End Type="VendingMachinesModel.Terminal" Role="Terminal" Multiplicity="1" />
+          <End Type="VendingMachinesModel.SoldProduct" Role="SoldProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terminal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SoldProduct">
+              <PropertyRef Name="TerminalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VendingMachinesModelStoreContainer" CdmEntityContainer="VendingMachinesEntities">
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="VendingMachinesModel.Bill">
+              <MappingFragment StoreEntitySet="Bills">
+                <ScalarProperty Name="Denomination" ColumnName="Denomination" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coins">
+            <EntityTypeMapping TypeName="VendingMachinesModel.Coin">
+              <MappingFragment StoreEntitySet="Coins">
+                <ScalarProperty Name="Denomination" ColumnName="Denomination" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductPrices">
+            <EntityTypeMapping TypeName="VendingMachinesModel.ProductPrice">
+              <MappingFragment StoreEntitySet="ProductPrices">
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="VendingMachinesModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SoldProducts">
+            <EntityTypeMapping TypeName="VendingMachinesModel.SoldProduct">
+              <MappingFragment StoreEntitySet="SoldProducts">
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terminals">
+            <EntityTypeMapping TypeName="VendingMachinesModel.Terminal">
+              <MappingFragment StoreEntitySet="Terminals">
+                <ScalarProperty Name="ProductsLoadedQty" ColumnName="ProductsLoadedQty" />
+                <ScalarProperty Name="CoinsLoadedQty" ColumnName="CoinsLoadedQty" />
+                <ScalarProperty Name="BillsCapacity" ColumnName="BillsCapacity" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TerminalsBills">
+            <EntityTypeMapping TypeName="VendingMachinesModel.TerminalsBill">
+              <MappingFragment StoreEntitySet="TerminalsBills">
+                <ScalarProperty Name="InsertedQuantity" ColumnName="InsertedQuantity" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TerminalsCoins">
+            <EntityTypeMapping TypeName="VendingMachinesModel.TerminalsCoin">
+              <MappingFragment StoreEntitySet="TerminalsCoins">
+                <ScalarProperty Name="LoadedQuantity" ColumnName="LoadedQuantity" />
+                <ScalarProperty Name="ReturnedQuantity" ColumnName="ReturnedQuantity" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="CoinId" ColumnName="CoinId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TerminalsProducts">
+            <EntityTypeMapping TypeName="VendingMachinesModel.TerminalsProduct">
+              <MappingFragment StoreEntitySet="TerminalsProducts">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TerminalId" ColumnName="TerminalId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

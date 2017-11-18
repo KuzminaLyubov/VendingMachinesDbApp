@@ -1,0 +1,23 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.dll
+*.dbmdl
+*.jfm
+
+/Database/obj/Debug
+/Database/bin/Debug
+/Database/Database.sqlproj.user
+
+/realtyApp/obj/Debug
+/realtyApp/bin/Debug
+/realtyApp/.vs/realtyApp/v14/.suo
+/realtyApp/packages/EntityFramework.6.1.3
+/realtyApp/.vs/realtyApp/v15/.suo
+/realtyApp/.vs/config/applicationhost.config
+/.vs/VendingMachines/v15
+/packages/EntityFramework.6.2.0
+/VendingMachinesDbApp/.vs/VendingMachines/v15
+/VendingMachinesDbApp/bin/Debug
+/VendingMachinesDbApp/obj/Debug

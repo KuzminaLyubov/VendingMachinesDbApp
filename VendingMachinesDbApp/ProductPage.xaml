@@ -1,0 +1,26 @@
+﻿<Page
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VendingMachines"
+        xmlns:Models="clr-namespace:VendingMachines.Models" x:Name="ProductPageName" x:Class="VendingMachines.ProductPage"
+        mc:Ignorable="d"
+        Title="New product" Loaded="Page_Loaded">
+    <Grid>
+        <StackPanel Margin="10 10 10 10">
+            <Label x:Name="_labelError" Content="Error"  
+            VerticalAlignment="Top" Height="25" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <Label x:Name="_labelProductId" Content="Product Id:"
+            VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" FontWeight="Bold"/>
+            <TextBox x:Name="_textBoxProductId"  VerticalAlignment="Top" Height="25"/>
+            <Label x:Name="_labelProductName" Content="Name:" FontWeight="Bold"/>
+            <TextBox x:Name="_textBoxProductName" Height="25" FontWeight="Normal"/>
+
+            <Button x:Name="_buttonSave" Content="Save"  
+                VerticalAlignment="Top" Width="150" Height="25" Margin="5 5 5 5" HorizontalAlignment="Center" Click="Page_ButtonSave_Click"/>
+            <Button x:Name="_buttonBack" Content="Back"  
+                VerticalAlignment="Top" Width="150" Height="25" Margin="5 5 5 5" HorizontalAlignment="Center" Click="Page_ButtonBack_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
